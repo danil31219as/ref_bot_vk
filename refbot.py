@@ -131,7 +131,7 @@ class RefBot:
                             break
                 parent_list = df.loc[parent_id].parents.strip().split()
                 parent_list.append(str(parent_id))
-                print(df.columns)
+
                 df.loc[self.user_id] = pd.Series([
                     'https://vk.com/id' + str(self.user_id), 'pass',
                     ' '.join(parent_list), 'a',
@@ -232,6 +232,7 @@ class RefBot:
         link = text
         df = pd.read_csv('data.csv')
         df.loc[self.user_id, 'aim'] = link
+        df = pd.read_csv('data.csv')
         df.to_csv('data.csv', index_label=False)
         self.vk.messages.send(user_id=self.user_id,
                               message=f'Замечательно! Теперь ты участник! Расскажи друзьям про наш марафон пусть тоже не сидят без денег! Отправь им эту ссылку {df.loc[self.user_id, "ref_source"]} . Помни чем больше участников тем быстрее ты  получишь полную сумму поддержки!',
