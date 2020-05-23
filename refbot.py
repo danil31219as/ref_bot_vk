@@ -88,7 +88,7 @@ class RefBot:
     def ask_challenge(self, text):
         if text.startswith('я в деле'):
             D_USERS[self.user_id]['state'] = 'how_1'
-            df = pd.read_csv('/home/vladimir/ref_bot_vk/data.csv')
+            df = pd.read_csv('data.csv')
             parent_id = None
             if self.user_id not in df.index:
                 if 'ref' in D_USERS[self.user_id]:
@@ -136,7 +136,7 @@ class RefBot:
                     'https://vk.com/id' + str(self.user_id), 'pass',
                     ' '.join(parent_list), 'a',
                     f'vk.com/write-{str(GROUP_ID)}?ref={self.create_ref()}'], index=df.columns)
-                df.to_csv('/home/vladimir/ref_bot_vk/data.csv', index_label=False)
+                df.to_csv('data.csv', index_label=False)
 
             self.vk.messages.send(user_id=self.user_id,
                                   message='Я в тебе не сомневался! Начнем с настройки твоего аккаунта!\nТебе нужно настроить VkPay.',
@@ -193,7 +193,7 @@ class RefBot:
     def links(self, text):
         if text.startswith('сделано'):
             D_USERS[self.user_id]['state'] = 'support'
-            df = pd.read_csv('/home/vladimir/ref_bot_vk/data.csv')
+            df = pd.read_csv('data.csv')
             parents_list = df.loc[self.user_id, 'parents'].strip().split()[1:]
             if len(parents_list) > 5:
                 parents_list = parents_list[:5]
@@ -230,7 +230,7 @@ class RefBot:
 
     def aim(self, text):
         link = text
-        df = pd.read_csv('/home/vladimir/ref_bot_vk/data.csv')
+        df = pd.read_csv('data.csv')
         df.loc[self.user_id, 'aim'] = link
         df.to_csv('data.csv', index_label=False)
         self.vk.messages.send(user_id=self.user_id,
