@@ -41,17 +41,15 @@ class RefBot:
                              random_id=random.randint(0, 2 ** 64))
         else:
             if 'ref' in self.message:
-                print('ok')
                 D_USERS[self.user_id]['ref'] = self.message['ref']
                 D_USERS[self.user_id]['state'] = 'start'
             try:
-                self.d_state[D_USERS[self.user_id]['state']](
-                    self.message['text'].lower().strip())
+                func = self.d_state[D_USERS[self.user_id]['state']]
             except KeyError as e:
                 print(e)
                 D_USERS[self.user_id]['state'] = 'start'
-                self.d_state[D_USERS[self.user_id]['state']](
-                    self.message['text'].lower().strip())
+                func = self.d_state[D_USERS[self.user_id]['state']]
+            func(self.message['text'].lower().strip())
 
     def start(self, text):
         D_USERS[self.user_id]['state'] = 'in_start'
@@ -94,40 +92,41 @@ class RefBot:
                 if 'ref' in D_USERS[self.user_id]:
                     user_df = df.loc[df.ref_source.str.contains(
                         D_USERS[self.user_id]["ref"])]
-                    index = df.index[0]
+                    index = user_df.index[0]
+
                     if len(user_df):
-                        list_children = user_df.loc[index].children.strip().split()
+
+                        list_children = user_df.loc[int(index), 'children'].strip().split()
                         if len(list_children) == 6:
                             for elem in df.index:
-                                list_children = df.loc[elem].children.strip().split()
+                                list_children = df.loc[int(elem)].children.strip().split()
                                 if len(list_children) < 6:
-                                    df.loc[elem, 'children'] = df.loc[
-                                                                   elem, 'children'] + " " + str(
+                                    df.loc[int(elem), 'children'] = df.loc[
+                                                                   int(elem), 'children'] + " " + str(
                                         self.user_id)
-                                    parent_id = elem
+                                    parent_id = int(elem)
                                     break
                         else:
-                            df.loc[index, 'children'] = df.loc[index, 'children'] + " " + str(
+                            df.loc[int(index), 'children'] = df.loc[int(index), 'children'] + " " + str(
                                         self.user_id)
-                            parent_id = index
+                            parent_id = int(index)
                     else:
                         for elem in df.index:
-                            list_children = df.loc[elem].children.strip().split()
+                            list_children = df.loc[int(elem)].children.strip().split()
                             if len(list_children) < 6:
-                                df.loc[elem, 'children'] = df.loc[
-                                                                   elem, 'children'] + " " + str(
+                                df.loc[int(elem), 'children'] = df.loc[
+                                                                   int(elem), 'children'] + " " + str(
                                         self.user_id)
-                                parent_id = elem
+                                parent_id = int(elem)
                                 break
                 else:
                     for elem in df.index:
-                        list_children = df.loc[elem].children.strip().split()
+                        list_children = df.loc[int(elem)].children.strip().split()
                         if len(list_children) < 6:
-                            print(type(df.loc[elem, 'children']))
-                            df.loc[elem, 'children'] = df.loc[
-                                                                   elem, 'children'] + " " + str(
+                            df.loc[int(elem), 'children'] = df.loc[
+                                                                   int(elem), 'children'] + " " + str(
                                         self.user_id)
-                            parent_id = elem
+                            parent_id = int(elem)
                             break
                 parent_list = df.loc[parent_id].parents.strip().split()
                 parent_list.append(str(parent_id))

@@ -3,8 +3,10 @@ from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
 from refbot import RefBot
 import requests
+
 TOKEN = 'd0e6e53559580aa6e56608dd0850968ac79d90cc4f78ee875762790c2813440741703c484fdf526d837cf'
 GROUP_ID = 194612355
+
 
 def main():
     vk_session = vk_api.VkApi(
