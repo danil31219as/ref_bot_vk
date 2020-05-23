@@ -6,9 +6,9 @@ After=network.target
 User=vladimir
 Group=vladimir
 
-WorkingDirectory=/home/vladimir/tele_bot/
-Environment="PYTHONPATH=/home/vladimir/tele_bot/"
-ExecStart=/home/vladimir/tele_bot/.venv/bin/python /home/vladimir/tele_bot/main.py
+WorkingDirectory=/home/vladimir/ref_bot_vk/
+Environment="PYTHONPATH=/home/vladimir/ref_bot_vk/"
+ExecStart=/home/vladimir/ref_bot_vk/.venv/bin/python /home/vladimir/ref_bot_vk/main.py
 
 [Install]
 WantedBy=multi-user.target
