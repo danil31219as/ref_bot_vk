@@ -1,7 +1,7 @@
 import random
 import pandas as pd
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
-from config import *
+GROUP_ID = 194612355
 import requests
 
 D_USERS = {}
